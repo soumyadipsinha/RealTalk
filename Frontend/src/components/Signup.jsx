@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthProvider";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+
 function Signup() {
   const [authUser, setAuthUser] = useAuth();
   const {
@@ -13,10 +14,8 @@ function Signup() {
     formState: { errors },
   } = useForm();
 
-  // watch the password and confirm password fields
   const password = watch("password", "");
   const confirmPassword = watch("confirmPassword", "");
-  console.log(confirmPassword);
 
   const validatePasswordMatch = (value) => {
     return value === password || "Passwords do not match";
@@ -29,7 +28,7 @@ function Signup() {
       password: data.password,
       confirmPassword: data.confirmPassword,
     };
-    // console.log(userInfo);
+    
     await axios
       .post("/api/user/signup", userInfo)
       .then((response) => {
@@ -45,141 +44,119 @@ function Signup() {
         }
       });
   };
+
   return (
-    <>
-      <div className="flex h-screen items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 p-4">
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2029&auto=format&fit=crop')] bg-cover bg-center opacity-20"></div>
+      
+      <div className="w-full max-w-md relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-pink-500/30 blur-3xl"></div>
+        
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="border border-white px-6 py-2 rounded-md space-y-3 w-96"
+          className="relative bg-gray-900/50 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-white/10"
         >
-          <h1 className="text-2xl text-center">
-            Chat<span className="text-green-500 font-semibold">App</span>
-          </h1>
-          <h2 className="text-xl text-white font-bold">Signup</h2>
-          <br />
-          {/* Fullname */}
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-            </svg>
-            <input
-              type="text"
-              className="grow"
-              placeholder="Fullname"
-              {...register("fullname", { required: true })}
-            />
-          </label>
-          {errors.fullname && (
-            <span className="text-red-500 text-sm font-semibold">
-              This field is required
-            </span>
-          )}
-          {/* Email */}
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-              <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-            </svg>
-            <input
-              type="email"
-              className="grow"
-              placeholder="Email"
-              {...register("email", { required: true })}
-            />
-          </label>
-          {errors.email && (
-            <span className="text-red-500 text-sm font-semibold">
-              This field is required
-            </span>
-          )}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Chat<span className="text-white">App</span>
+            </h1>
+            <p className="text-gray-400 mt-2">Create your account to get started.</p>
+          </div>
 
-          {/* Password */}
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <input
-              type="password"
-              className="grow"
-              placeholder="password"
-              {...register("password", { required: true })}
-            />
-          </label>
-          {errors.password && (
-            <span className="text-red-500 text-sm font-semibold">
-              This field is required
-            </span>
-          )}
+          <div className="space-y-6">
+            {/* Fullname */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-300">Full Name</label>
+              <div className="relative group">
+                <input
+                  type="text"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/25 transition-all duration-300 relative z-10"
+                  placeholder="Enter your full name"
+                  {...register("fullname", { required: true })}
+                />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 -z-10"></div>
+              </div>
+              {errors.fullname && (
+                <span className="text-red-400 text-sm">This field is required</span>
+              )}
+            </div>
 
-          {/*Confirm Password */}
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <input
-              type="password"
-              className="grow"
-              placeholder="confirm password"
-              {...register("confirmPassword", {
-                required: true,
-                validate: validatePasswordMatch,
-              })}
-            />
-          </label>
-          {errors.confirmPassword && (
-            <span className="text-red-500 text-sm font-semibold">
-              {errors.confirmPassword.message}
-            </span>
-          )}
+            {/* Email */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-300">Email</label>
+              <div className="relative group">
+                <input
+                  type="email"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/25 transition-all duration-300 relative z-10"
+                  placeholder="Enter your email"
+                  {...register("email", { required: true })}
+                />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 -z-10"></div>
+              </div>
+              {errors.email && (
+                <span className="text-red-400 text-sm">This field is required</span>
+              )}
+            </div>
 
-          {/* Text & Button */}
-          <div className="flex justify-between">
-            <p>
-              Have an account?
+            {/* Password */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-300">Password</label>
+              <div className="relative group">
+                <input
+                  type="password"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/25 transition-all duration-300 relative z-10"
+                  placeholder="Create a password"
+                  {...register("password", { required: true })}
+                />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 -z-10"></div>
+              </div>
+              {errors.password && (
+                <span className="text-red-400 text-sm">This field is required</span>
+              )}
+            </div>
+
+            {/* Confirm Password */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-300">Confirm Password</label>
+              <div className="relative group">
+                <input
+                  type="password"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/25 transition-all duration-300 relative z-10"
+                  placeholder="Confirm your password"
+                  {...register("confirmPassword", {
+                    required: true,
+                    validate: validatePasswordMatch,
+                  })}
+                />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 -z-10"></div>
+              </div>
+              {errors.confirmPassword && (
+                <span className="text-red-400 text-sm">{errors.confirmPassword.message}</span>
+              )}
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-medium hover:from-purple-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-purple-500/25 transition-all duration-300 transform hover:scale-[1.02]"
+            >
+              Sign Up
+            </button>
+
+            {/* Login Link */}
+            <p className="text-center text-gray-400">
+              Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-blue-500 underline cursor-pointer ml-1"
+                className="text-purple-400 hover:text-purple-300 font-medium transition-colors duration-300"
               >
                 Login
               </Link>
             </p>
-            <input
-              type="submit"
-              value="Signup"
-              className="text-white bg-green-500 px-2 py-1 cursor-pointer rounded-lg"
-            />
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 

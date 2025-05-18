@@ -15,10 +15,12 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socket = io("http://localhost:4002", {
+      const socket = io("http://localhost:5000", {
         query: {
           userId: authUser.user._id,
         },
+        transports: ['websocket', 'polling'],
+        withCredentials: true
       });
       setSocket(socket);
       socket.on("getOnlineUsers", (users) => {

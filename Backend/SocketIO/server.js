@@ -7,8 +7,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3001",
+    origin: ["http://localhost:5173", "http://localhost:3000", "http://localhost:3001"],
     methods: ["GET", "POST"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    transports: ['websocket', 'polling']
   },
 });
 
@@ -25,7 +28,7 @@ io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   if (userId) {
     users[userId] = socket.id;
-    console.log("Hello ", users);
+    console.log("Online users:", users);
   }
   // used to send the events to all connected users
   io.emit("getOnlineUsers", Object.keys(users));

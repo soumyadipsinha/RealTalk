@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
 import { BiLogOutCircle } from "react-icons/bi";
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+
 function Logout() {
   const [loading, setLoading] = useState(false);
+
   const handleLogout = async () => {
     setLoading(true);
     try {
@@ -20,18 +21,17 @@ function Logout() {
       toast.error("Error in logging out");
     }
   };
+
   return (
-    <>
-      <hr />
-      <div className=" h-[10vh] bg-transparent">
-        <div>
-          <BiLogOutCircle
-            className="text-5xl text-white hover:bg-slate-700 duration-300 cursor-pointer rounded-full p-2 ml-2 mt-1"
-            onClick={handleLogout}
-          />
-        </div>
-      </div>
-    </>
+    <div className="border-t border-gray-700 bg-gradient-to-r from-purple-900 to-pink-900 p-4">
+      <button
+        onClick={handleLogout}
+        className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-300"
+      >
+        <BiLogOutCircle className="text-xl" />
+        <span>{loading ? "Logging out..." : "Logout"}</span>
+      </button>
+    </div>
   );
 }
 

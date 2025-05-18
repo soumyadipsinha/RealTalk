@@ -13,17 +13,25 @@ dotenv.config();
 // middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:3000", "http://localhost:3001"],
+  credentials: true,
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
-const PORT = process.env.PORT || 4001;
-const URI = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 5000;
+const URI = process.env.MONGODB_URI || "mongodb://localhost:27017/chatapp";
 
-try {
-  mongoose.connect(URI);
-  console.log("Connected to MongoDB");
-} catch (error) {
-  console.log(error);
-}
+// MongoDB connection with better error handling
+mongoose.connect(URI)
+  .then(() => {
+    console.log("Connected to MongoDB successfully");
+  })
+  .catch((error) => {
+    console.error("MongoDB connection error:", error);
+    process.exit(1);
+  });
 
 //routes
 app.use("/api/user", userRoute);
